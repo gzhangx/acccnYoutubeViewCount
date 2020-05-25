@@ -10,18 +10,20 @@ function handleErr(res, err) {
 }
 function checkVideo(req, res) {
     console.log(`video id ${req.query.id}`);
-    return acccn.recordAcccnVideoViewCount(req.query.id).then(ret=>{
-        res.send(ret);
+    return acccn.recordAcccnVideoViewCount(req.query.id).then(async ret=>{
+        const maxInf = await acccn.getAndSetAcccnAttendenceNumber(ret.count);
+        res.send(Object.assign(ret, maxInf));
     }).catch(err=>{
         handleErr(res,err);
     });
 }
 
 function checkChannel(req, res) {
-    const id = 'UCgoGuFymG8WrD_3dBEg3Lqw' || req.query.id;
+    const id = req.query.id || 'UCgoGuFymG8WrD_3dBEg3Lqw';
     console.log(`channel id ${id}`);
-    return acccn.recordAcccnVideoViewCountByChannel(id).then(ret=>{
-        res.send(ret);
+    return acccn.recordAcccnVideoViewCountByChannel(id).then(async ret=>{
+        const maxInf = await acccn.getAndSetAcccnAttendenceNumber(ret.count);
+        res.send(Object.assign(ret, maxInf));
     }).catch(err=>{
         handleErr(res,err);
     })
