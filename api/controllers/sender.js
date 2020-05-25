@@ -9,7 +9,7 @@ function handleErr(res, err) {
     res.send(txt);
 }
 function checkVideo(req, res) {
-    console.log(req.query);
+    console.log(`video id ${req.query.id}`);
     return acccn.recordAcccnVideoViewCount(req.query.id).then(ret=>{
         res.send(ret);
     }).catch(err=>{
@@ -18,7 +18,7 @@ function checkVideo(req, res) {
 }
 
 function checkChannel(req, res) {
-    const id = req.query.id;
+    const id = 'UCgoGuFymG8WrD_3dBEg3Lqw' || req.query.id;
     console.log(`channel id ${id}`);
     return acccn.recordAcccnVideoViewCountByChannel(id).then(ret=>{
         res.send(ret);
